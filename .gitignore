@@ -1,0 +1,23 @@
+# macOS system files
+.DS_Store
+
+# Node.js dependencies
+node_modules/
+
+# Python virtual environment
+venv/
+.env
+
+# Logs and caches
+*.log
+__pycache__/
+db.sqlite3
+
+# Build artifacts
+dist/
+build/
+
+# IDE and editor settings
+.vscode/
+.idea/
+
