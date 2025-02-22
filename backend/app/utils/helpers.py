@@ -32,17 +32,3 @@ class Helpers:
         except Exception as e:
             logging.error(f"Error in check_vin_exists: {e}")
             raise Exception(f"An error occurred while checking the vin: {str(e)}")
-
-    @staticmethod
-    def check_admin_session():
-        if "username" not in session or session.get("role") != "admin":
-            flash(ERROR_PLEASE_LOG_IN, "error")
-            return False
-        return True
-
-    @staticmethod
-    def check_user_session():
-        if "username" not in session or session.get("role") not in ["admin", "user"]:
-            flash(ERROR_PLEASE_LOG_IN, "error")
-            return False
-        return True

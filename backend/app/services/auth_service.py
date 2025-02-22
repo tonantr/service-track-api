@@ -2,7 +2,6 @@ import logging
 import jwt
 import os
 import datetime
-from flask import session
 from bcrypt import hashpw, gensalt, checkpw
 from app.utils.helpers import Helpers
 
@@ -30,12 +29,16 @@ def is_password_plaintext(password):
     return len(password) < 60
 
 
-def generate_token(username):
-    expiration = datetime.datetime.utcnow() + datetime.timedelta(
-        hours=1
-    )
-    payload = {"username": username, "exp": expiration}
+def generate_token(username, user_id, role):
+    expiration = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    payload = {
+        "username": username,
+        "user_id": user_id,   
+        "role": role,         
+        "exp": expiration     
+    }
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+    
     return token
 
 
@@ -51,14 +54,13 @@ def authenticate(username, password, helpers: Helpers):
                 stored_password = hashed_password
 
             if verify_password(password, stored_password):
-                session["username"] = username
-                session["role"] = user["role"]
-                session["user_id"] = user["user_id"]
-                return True
+                access_token = generate_token(username, user["user_id"], user["role"])
+                return True, access_token if access_token else (False, None)
             else:
-                return False
+                return False, None
         else:
-            return False
+            return False, None
     except Exception as e:
         logging.error(f"Error in authenticate: {e}")
         print("\nAn error occurred while authenticating.")
+        return False, None 
