@@ -30,5 +30,5 @@ class Helpers:
             with self.db_handler as db:
                 db.execute_commit(query, (hashed_password, username))
         except Exception as e:
-            logging.error(f"Error in check_vin_exists: {e}")
-            raise Exception(f"An error occurred while checking the vin: {str(e)}")
+            logging.error(f"Error in update_password: {e}")
+            raise Exception(f"An error occurred while updating password {str(e)}")

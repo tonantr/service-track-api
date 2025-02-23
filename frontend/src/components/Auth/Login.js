@@ -9,7 +9,7 @@ function Login() {
 
     const navigate = useNavigate();
 
-    const login = async (e) => {
+    async function login(e) {
         e.preventDefault();
 
         try {
